@@ -138,9 +138,22 @@ class SudokuBoard(object):
         return GRIDS[grid_number][0][row_index]
 
 
+    def get_col_coord_by_grid_col_index(self, grid_number, col_index):
+        """ Takes a grid number and column index from within
+            that grid and returns the corresponding board
+            column index
+        """
+        return GRIDS[grid_number][1][col_index]
+
+
     def get_column_values_for_grid(self, grid_number):
         """ Gets the column values for a grid """
         return GRIDS[grid_number][1]
+    
+
+    def get_row_values_for_grid(self, grid_number):
+        """ Gets the row values for a grid """
+        return GRIDS[grid_number][0]
 
 
     def validate_board(self):

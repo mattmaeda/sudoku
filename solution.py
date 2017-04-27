@@ -145,8 +145,12 @@ class SudokuSolution(object):
         """
         for i in range(board.MAX_RANGE_VALUES):
             grid_values = self.board.get_all_grid_values(i)
+
             grid_row_uniques = self.find_unique_grid_row_values(grid_values)
             self.remove_other_grid_row_values(i, grid_row_uniques)
+
+            grid_col_uniques = self.find_unique_grid_column_values(grid_values)
+            self.remove_other_grid_column_values(i, grid_col_uniques)
 
 
     def find_unique_grid_row_values(self, grid_values):
@@ -211,17 +215,66 @@ class SudokuSolution(object):
 
 
 
-    def find_unique_grid_column_values(self):
+    def find_unique_grid_column_values(self, grid_values):
         """ Finds values within a grid that are unique
             to a particular grid column and returns that
             value, the column index, and the grid number
         """
-        pass
+        row_idx = 0
+        col_idx = 0
+        value_counts = {
+            col_idx: []
+        }
+
+        indexes = [0, 3, 6, 1, 4, 7, 2, 5, 8]
+
+        for index in indexes:
+            values = grid_values[index]
+
+            if row_idx == 3:
+                col_idx += 1
+                row_idx = 0
+                value_counts[col_idx] = []
+
+            row_idx += 1
+
+            if len(values) == 1:
+                continue
+
+            for value in values:
+                if value not in value_counts[col_idx]:
+                    value_counts[col_idx].append(value)
+
+        set1 = set(value_counts[0])
+        set2 = set(value_counts[1])
+        set3 = set(value_counts[2])
+
+        return {
+            0: list(set1 - set2 - set3),
+            1: list(set2 - set1 - set3),
+            2: list(set3 - set1 - set2)
+        }
 
 
-    def remove_other_grid_column_values(self, value, row_index,
-                                        exclude_grid_number):
+    def remove_other_grid_column_values(self, exclude_grid_number,
+                                        grid_column_uniques):
         """ From a given column, remove value in row coordinate
             not a part of a specified grid
         """
-        pass
+        row_values = self.board.get_row_values_for_grid(exclude_grid_number)
+
+        for col_index, uniques in grid_column_uniques.iteritems():
+            col_coordinate = self.board.get_col_coord_by_grid_col_index(exclude_grid_number,
+                                                                        col_index)
+
+            if uniques:
+                values = self.board.get_all_column_values(col_coordinate)
+
+                for i in range(board.MAX_RANGE_VALUES):
+                    if i in row_values:
+                        continue
+
+                    for unique in uniques:
+                        if unique in values[i]:
+                            values[i].remove(unique)
+                            self.board_needs_cleaning = True
