@@ -7,8 +7,8 @@ MAX_BOARD_VALUES = 81
 MAX_RANGE_VALUES = 9
 POSSIBLE_COORDINATE_VALUES = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 MAX_TOTAL = 45
-TABLE_WIDTH_NORMAL_DISPLAY = 20
-TABLE_WIDTH_EXTENDED_DISPLAY = 81
+TABLE_WIDTH_NORMAL_DISPLAY = 21
+TABLE_WIDTH_EXTENDED_DISPLAY = 93
 
 # Set format <grid_value>: [[rows],[cols]]
 GRIDS = {
@@ -173,7 +173,6 @@ class SudokuBoard(object):
             table_width = TABLE_WIDTH_EXTENDED_DISPLAY
 
         idx = 0
-        print self.board
 
         for row in self.board:
 
@@ -182,8 +181,7 @@ class SudokuBoard(object):
                 idx = 0
 
             fmt_out = self.get_row_outputs(row, print_extended_format)
-            print len(fmt_out)
-            #print "\t%s %s %s | %s %s %s | %s %s %s" % tuple(fmt_out)
+            print "\t%s %s %s | %s %s %s | %s %s %s" % tuple(fmt_out)
 
             idx += 1
 
@@ -192,15 +190,17 @@ class SudokuBoard(object):
 
     def get_row_outputs(self, row_values, use_extended_format):
         """ Gets the formatted output for a given set of row values """
-        raw_output = ["".join(str(i) for i in row_values).ljust(MAX_RANGE_VALUES)]
-        if use_extended_format:
-            return raw_output
-        else:
-            cleaned_output = []
-            for raw_out in raw_output:
-                val = raw_out.strip()
-                if len(val) > 1:
-                    val = " "
-                cleaned_output.append(val)
+        row_outputs = []
+        for values in row_values:
+            raw_value = "{}".format("".join(str(i) for i in values))
 
-            return cleaned_output
+            if use_extended_format:
+                row_outputs.append(raw_value.center(9))
+            else:
+                if len(raw_value) > 1:
+                    row_outputs.append(" ")
+                else:
+                    row_outputs.append(raw_value)
+
+        return row_outputs
+
