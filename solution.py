@@ -1,7 +1,9 @@
 """
 Encapsulates sudoku game solutions
 """
+from copy import copy
 import board
+
 
 class SudokuSolution(object):
     """ Wraps sudoku board class and solves the board
