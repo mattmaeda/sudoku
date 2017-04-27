@@ -2,7 +2,6 @@
 Encapsulates sudoku game solutions
 """
 import board
-from copy import copy
 
 class SudokuSolution(object):
     """ Wraps sudoku board class and solves the board
@@ -198,7 +197,6 @@ class SudokuSolution(object):
 
             if uniques:
                 values = self.board.get_all_row_values(row_coordinate)
-                #values_copy = copy(values)
 
                 for i in range(board.MAX_RANGE_VALUES):
                     if i in column_values:
