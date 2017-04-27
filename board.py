@@ -204,3 +204,10 @@ class SudokuBoard(object):
 
         return row_outputs
 
+
+    def output_board_to_file(self, path_to_output_file):
+        """ Outputs board state to an output file """
+        with open(path_to_output_file, "w") as handle:
+            for row in self.board:
+                outputs = self.get_row_outputs(row, False)
+                handle.write("".join(["." if x == " " else x for x in outputs]))

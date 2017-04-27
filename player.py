@@ -1,6 +1,8 @@
+"""
+Entry point to the sudoku solver
+"""
 import argparse
 import os
-
 from board import SudokuBoard
 
 MY_PATH = os.path.abspath(os.path.dirname(__file__))
