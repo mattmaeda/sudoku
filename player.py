@@ -4,6 +4,7 @@ Entry point to the sudoku solver
 import argparse
 import os
 from board import SudokuBoard
+from solution import SudokuSolution
 
 MY_PATH = os.path.abspath(os.path.dirname(__file__))
 
@@ -30,7 +31,17 @@ def main():
 
     gameboard = SudokuBoard(os.path.join(MY_PATH, args.file))
     gameboard.print_board()
-    gameboard.print_board(True)
+
+    solver = SudokuSolution(gameboard)
+    solver.solve_board()
+
+    if gameboard.validate_board():
+        print "Board solved"
+        gameboard.print_board()
+    else:
+        print "Looks like we need to add new solution strategies"
+        gameboard.print_board(True)
+        gameboard.print_board()
 
     if args.outfile is not None:
         gameboard.output_board_to_file(args.outfile)
