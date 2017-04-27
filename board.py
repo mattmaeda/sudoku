@@ -130,6 +130,18 @@ class SudokuBoard(object):
 
         return values
 
+    def get_row_coord_by_grid_row_index(self, grid_number, row_index):
+        """ Takes a grid number and row index from within
+            that grid and returns the corresponding board
+            row index
+        """
+        return GRIDS[grid_number][0][row_index]
+
+
+    def get_column_values_for_grid(self, grid_number):
+        """ Gets the column values for a grid """
+        return GRIDS[grid_number][1]
+
 
     def validate_board(self):
         """ Validates if the board is correctly solved """
